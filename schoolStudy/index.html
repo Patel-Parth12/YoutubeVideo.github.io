@@ -1,1 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
 
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Float four columns side by side */
+.column {
+  float: left;
+  width: 25%;
+  padding: 10px;
+}
+.column-answer {
+    float: left;
+	width: 25%;
+	padding: 10px;
+	border: 2px dashed #bbb;
+  }
+
+/* Remove extra left and right margins, due to padding */
+.row {margin: 0 -5px;}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive columns */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+  }
+  .column-answer {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+	border: 2px dashed #bbb;
+  }
+}
+
+/* Style the counter cards */
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  text-align: center;
+  background-color: #f1f1f1;
+}
+.card-answer {
+  padding: 16px;
+  text-align: center;
+  border: 2px dashed #bbb;
+}
+.card-answer-ok {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  text-align: center;
+  border: 2px dashed #bbb;
+  background-color: #03651b;
+  color:#ffffff;
+}
+.card-answer-notok {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  text-align: center;
+  border: 2px dashed #bbb;
+  background-color: #eb2609;
+  color:#ffffff;
+}
+
+.dropZone {
+  border: 2px dashed #bbb;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+  font: 21pt bold arial;
+  color: #bbb;
+}
+.draggable-pointer{
+	cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<h2 id="mainTitle"></h2>
+<p id="titleQuestion"></p>
+
+<div class="row answerdata">
+	Not Configured.
+</div>
+<hr>
+<hr>
+<div class="row questionData">
+	
+</div>
+
+<div class="row answerBoxclass">
+  
+</div>
+<script>
+let data = ["નસીબ","ચહેરો","સુતા","ઘોડો"];
+let queDataObj = {"સૂર્ય":"રવિ","હાથી":"કુંજર","ભેટ":"ઉપહાર","પુષ્પ":"ફૂલ"};
+let queData = [];
+
+
+function intiPage(){
+    let htmldata = "";
+	let queHtmlData = "";
+	let answerBoxData = "";
+	for(keydata in queDataObj){
+		queData.push(keydata);
+		data.push(queDataObj[keydata]);
+	}
+	data = shuffleArray(data);
+	queData = shuffleArray(queData);
+	for(let i=0;i<data.length;i++)
+	{
+		let column = '<div class="column">'+
+						'<div class="card draggable-pointer" draggable="true" ondragstart="drag(event)" id="data'+i+'" data-text="'+data[i]+'">'+
+						'<h3>'+data[i]+'</h3>'+
+					  '</div>'+
+					  '</div>';
+		htmldata +=column;
+	}
+	for(let i=0;i<queData.length;i++)
+	{
+		let column = '<div class="column">'+
+						'<div class="card" id="data'+i+'">'+
+						'<h3>'+queData[i]+'</h3>'+
+					  '</div>'+
+					  '</div>';
+					  
+		let answerBox = '<div class="column" ondrop="drop(event,this,'+i+')" ondragover="allowDrop(event)"><div class="card-answer"><h3>અહીંયા મુકો</h3></div></div>';
+		queHtmlData +=column;
+		answerBoxData +=answerBox;
+	}
+	const collection = document.getElementsByClassName("answerdata");
+	collection[0].innerHTML = htmldata;
+	const collectionQue = document.getElementsByClassName("questionData");
+	collectionQue[0].innerHTML = queHtmlData;
+	const answerBoxClass = document.getElementsByClassName("answerBoxclass");
+	answerBoxClass[0].innerHTML = answerBoxData;
+	document.getElementById("mainTitle").innerText="સમાનાર્થી શબ્દો";
+	
+}
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+function drag(ev) {
+  ev.dataTransfer.setData("text", ev.target.id);
+}
+function drop(ev,inputRef,position) {
+  ev.preventDefault();
+  let datatext = ev.dataTransfer.getData("text");
+  let answerText = document.getElementById(datatext).dataset.text;
+  let rigthAnswer = queDataObj[queData[position]];
+  let answerData = "";
+  
+  if(rigthAnswer == answerText){
+	answerData = '<div class="card-answer-ok"><h3>'+answerText+'</h3></div>';
+	successPlaySound();
+  }else{
+	answerData = '<div class="card-answer-notok"><h3>'+answerText+'</h3></div>';
+	failedPlaySound();
+  }
+  
+  
+  inputRef.innerHTML = answerData;
+  //ev.target.removeChild();
+  //ev.target.append(document.getElementById(data));
+}
+function allowDrop(ev) {
+  ev.preventDefault();
+}
+function successPlaySound(){
+	var audio = new Audio('success.mp3');
+	audio.play();
+}
+function failedPlaySound(){
+	var audio = new Audio('fail.mp3');
+	audio.play();
+}
+intiPage();
+</script>
+</body>
+</html>

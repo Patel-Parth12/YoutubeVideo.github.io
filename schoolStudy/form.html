@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Inter', sans-serif;
+  }
+  .formbold-main-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px;
+  }
+
+  .formbold-form-wrapper {
+    margin: 0 auto;
+    max-width: 570px;
+    width: 100%;
+    background: white;
+    padding: 40px;
+  }
+
+  .formbold-form-img {
+    margin-bottom: 45px;
+  }
+
+  .formbold-input-group {
+    margin-bottom: 18px;
+  }
+
+  .formbold-form-select {
+    width: 100%;
+    padding: 12px 22px;
+    border-radius: 5px;
+    border: 1px solid #dde3ec;
+    background: #ffffff;
+    font-size: 16px;
+    color: #536387;
+    outline: none;
+    resize: none;
+  }
+
+  .formbold-input-radio-wrapper {
+    margin-bottom: 25px;
+  }
+  .formbold-radio-flex {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .formbold-radio-label {
+    font-size: 14px;
+    line-height: 24px;
+    color: #07074d;
+    position: relative;
+    padding-left: 25px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  .formbold-input-radio {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .formbold-radio-checkmark {
+    position: absolute;
+    top: -1px;
+    left: 0;
+    height: 18px;
+    width: 18px;
+    background-color: #ffffff;
+    border: 1px solid #dde3ec;
+    border-radius: 50%;
+  }
+  .formbold-radio-label
+    .formbold-input-radio:checked
+    ~ .formbold-radio-checkmark {
+    background-color: #6a64f1;
+  }
+  .formbold-radio-checkmark:after {
+    content: '';
+    position: absolute;
+    display: none;
+  }
+
+  .formbold-radio-label
+    .formbold-input-radio:checked
+    ~ .formbold-radio-checkmark:after {
+    display: block;
+  }
+
+  .formbold-radio-label .formbold-radio-checkmark:after {
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ffffff;
+    transform: translate(-50%, -50%);
+  }
+
+  .formbold-form-input {
+    width: 100%;
+    padding: 13px 22px;
+    border-radius: 5px;
+    border: 1px solid #dde3ec;
+    background: #ffffff;
+    font-weight: 500;
+    font-size: 16px;
+    color: #07074d;
+    outline: none;
+    resize: none;
+  }
+  .formbold-form-input::placeholder {
+    color: #536387;
+  }
+  .formbold-form-input:focus {
+    border-color: #6a64f1;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+  }
+  .formbold-form-label {
+    color: #07074d;
+    font-size: 14px;
+    line-height: 24px;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .formbold-btn {
+    text-align: center;
+    width: 100%;
+    font-size: 16px;
+    border-radius: 5px;
+    padding: 14px 25px;
+    border: none;
+    font-weight: 500;
+    background-color: #6a64f1;
+    color: white;
+    cursor: pointer;
+    margin-top: 25px;
+  }
+  .formbold-btn:hover {
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+  }
+  .error-class{
+    font-size:12px;
+    color:red;
+  }
+</style>
+</head>
+<body>
+<div class="formbold-main-wrapper">
+  <!-- Author: FormBold Team -->
+  <!-- Learn More: https://formbold.com -->
+  <div class="formbold-form-wrapper">
+    
+    <form action="#" method="POST" onsubmit="return false;">
+      <div class="formbold-input-group">
+        <label for="school_name" class="formbold-form-label"> શાળાનું નામ </label>
+        <input
+          type="text"
+          name="school_name"
+          id="school_name"
+          placeholder="શાળાનું નામ દાખલ કરો"
+          class="formbold-form-input"
+        />
+      </div>
+
+      <div class="formbold-input-group">
+        <label class="formbold-form-label"> પ્રશ્ન: </label>
+        <input
+          type="text"
+          name="question"
+          id="question"
+          placeholder="પ્રશ્ન દાખલ કરો"
+          class="formbold-form-input"
+        />
+      </div>
+
+      <div class="formbold-input-group"></div>
+      <label class="formbold-form-label"> પ્રશ્નો </label>
+      <table>
+	  <tr>
+	  <td>1</td>
+	  <td>
+	  <input
+          type="text"
+          name="que1"
+          id="que1"
+          placeholder="પ્રશ્ન દાખલ કરો"
+          class="formbold-form-input"
+        />
+	  </td>
+	  <td>
+	  <input
+          type="text"
+          name="ans1"
+          id="ans1"
+          placeholder="જવાબ દાખલ કરો"
+          class="formbold-form-input"
+        />
+	  </td>
+	  </tr>
+	  <tr>
+      <td>2</td>
+      <td>
+      <input
+            type="text"
+            name="que2"
+            id="que2"
+            placeholder="પ્રશ્ન દાખલ કરો"
+            class="formbold-form-input"
+          />
+      </td>
+      <td>
+      <input
+            type="text"
+            name="ans2"
+            id="ans2"
+            placeholder="જવાબ દાખલ કરો"
+            class="formbold-form-input"
+          />
+      </td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>
+        <input
+              type="text"
+              name="que3"
+              id="que3"
+              placeholder="પ્રશ્ન દાખલ કરો"
+              class="formbold-form-input"
+            />
+        </td>
+        <td>
+        <input
+              type="text"
+              name="ans3"
+              id="ans3"
+              placeholder="જવાબ દાખલ કરો"
+              class="formbold-form-input"
+            />
+        </td>
+        </tr>
+          <tr>
+	  <td>4</td>
+	  <td>
+	  <input
+          type="text"
+          name="que4"
+          id="que4"
+          placeholder="પ્રશ્ન દાખલ કરો"
+          class="formbold-form-input"
+        />
+	  </td>
+	  <td>
+	  <input
+          type="text"
+          name="ans4"
+          id="ans4"
+          placeholder="જવાબ દાખલ કરો"
+          class="formbold-form-input"
+        />
+	  </td>
+	  </tr>
+	  </table>
+    </form>
+    <br>
+    <div class="formbold-input-group">
+    <label for="school_name" class="formbold-form-label"> અન્ય ખોટા વિકલ્પો: </label>
+    <table>
+  <tr>
+  <td>1</td>
+  <td>
+  <input
+        type="text"
+        name="opt1"
+        id="opt1"
+        placeholder="ખોટા વિકલ્પો દાખલ કરો"
+        class="formbold-form-input"
+      />
+  </td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>
+    <input
+          type="text"
+          name="opt2"
+          id="opt2"
+          placeholder="ખોટા વિકલ્પો દાખલ કરો"
+          class="formbold-form-input"
+        />
+    </td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>
+      <input
+            type="text"
+            name="opt3"
+            id="opt3"
+            placeholder="ખોટા વિકલ્પો દાખલ કરો"
+            class="formbold-form-input"
+          />
+      </td>
+      </tr>
+        <tr>
+  <td>4</td>
+  <td>
+  <input
+        type="text"
+        name="opt4"
+        id="opt4"
+        placeholder="ખોટા વિકલ્પો દાખલ કરો"
+        class="formbold-form-input"
+      />
+  </td>
+  </tr>
+  </table>
+</div>
+  <table>
+    <tr>
+      <td>
+        <button class="formbold-btn" id="submit" onclick="onSubmit()">Submit</button>
+      </td>
+      <td>
+        <button class="formbold-btn" id="submit" onclick="window.location.href='index.html';">Goto Page</button>
+      </td>
+    </tr>
+  </table>
+      
+    </form>
+  </div>
+</div>
+
+<script>
+function onSubmit(){
+  let school_name = document.getElementById("school_name").value;
+  let question = document.getElementById("question").value;
+
+  let que1 = document.getElementById("que1");
+  showError(que1,"");
+  let ans1 = document.getElementById("ans1");
+  showError(ans1,"");
+  let que2 = document.getElementById("que2");
+  showError(que2,"");
+  let ans2 = document.getElementById("ans2");
+  showError(ans2,"");
+  let que3 = document.getElementById("que3");
+  showError(que3,"");
+  let ans3 = document.getElementById("ans3");
+  showError(ans3,"");
+  let que4 = document.getElementById("que4");
+  showError(que4,"");
+  let ans4 = document.getElementById("ans4");
+  showError(ans4,"");
+
+  let opt1 = document.getElementById("opt1");
+  let opt2 = document.getElementById("opt2");
+  let opt3 = document.getElementById("opt3");
+  let opt4 = document.getElementById("opt4");
+
+  let isError = false;
+
+  if(que1.value && !ans1.value){
+    isError = true;
+    showError(ans1,"જવાબ દાખલ કરો");
+  }
+  if(ans1.value && !que1.value){
+    isError = true;
+    showError(que1,"પ્રશ્ન દાખલ કરો");
+  }
+  if(que2.value && !ans2.value){
+    isError = true;
+    showError(ans2,"જવાબ દાખલ કરો");
+  }
+  if(ans2.value && !que2.value){
+    isError = true;
+    showError(que2,"પ્રશ્ન દાખલ કરો");
+  }
+  if(que3.value && !ans3.value){
+    isError = true;
+    showError(ans3,"જવાબ દાખલ કરો");
+  }
+  if(ans3.value && !que3.value){
+    isError = true;
+    showError(que3,"પ્રશ્ન દાખલ કરો");
+  }
+  if(que4.value && !ans4.value){
+    isError = true;
+    showError(ans4,"જવાબ દાખલ કરો");
+  }
+  if(ans4.value && !que4.value){
+    isError = true;
+    showError(que4,"પ્રશ્ન દાખલ કરો");
+  }
+
+  let storeData = {};
+  if(!isError){
+    storeData["schoolName"] =  school_name;
+    storeData["question"] =  question;
+
+    let questions = [];
+    setQuestionObject(questions,que1,ans1);
+    setQuestionObject(questions,que2,ans2);
+    setQuestionObject(questions,que3,ans3);
+    setQuestionObject(questions,que4,ans4);
+    
+    storeData["questionData"] =  questions;
+
+    let optionData = [];
+
+    setOptiondata(optionData,opt1);
+    setOptiondata(optionData,opt2);
+    setOptiondata(optionData,opt3);
+    setOptiondata(optionData,opt4);
+
+    storeData["optionData"] =  optionData;
+    
+    localStorage["pageData"] =JSON.stringify(storeData);
+
+    alert("Success");
+
+  }
+
+
+  
+}
+function intiPage(){
+  if(localStorage['pageData']){
+   let pageData = JSON.parse(localStorage['pageData']);
+   document.getElementById("school_name").value=pageData.schoolName;
+   document.getElementById("question").value=pageData.question;
+   pageData?.questionData?.forEach((element,index) => {
+    let que = document.getElementById("que"+(index+1));
+    let ans = document.getElementById("ans"+(index+1));
+    if(que && ans){
+      Object.keys(element).forEach(item=>{
+        que.value=item;
+        ans.value=element[item];
+      });
+    }
+   });
+   pageData?.optionData?.forEach((item,index)=>{
+    let opt = document.getElementById("opt"+(index+1));
+    if(opt){
+      opt.value=item;
+    }
+   });
+  }
+  
+}
+
+function setOptiondata(optionData,opt){
+  if(opt.value){
+    optionData.push(opt.value);
+  }
+}
+function setQuestionObject(questions,que,ans){
+  if(que.value && ans.value){
+    questions.push({[que.value]:ans.value});
+  }
+}
+function showError(element,error){
+  if(element.nextElementSibling){
+    element.nextElementSibling.innerText = error;
+  }else{
+    let span = document.createElement("span");
+    span.innerText=error;
+    span.className = "error-class" 
+    element.after(span);
+  }
+}
+intiPage();
+</script>
+
+</body>
+</html>
