@@ -98,18 +98,53 @@ body {
 .draggable-pointer{
 	cursor: pointer;
 }
+.formbold-btn {
+    text-align: center;
+    width: 100%;
+    font-size: 16px;
+    border-radius: 10px;
+    padding: 14px 25px;
+    border: none;
+    font-weight: 500;
+    background-color: #6a64f1;
+    color: white;
+    cursor: pointer;
+    margin-top: 25px;
+  }
+  .formbold-btn:hover {
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+  }
 
 
 </style>
+<link rel="stylesheet"
+          href=
+"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-
-<h2 id="mainTitle"></h2>
-<p id="titleQuestion"></p>
+<div style="display:flex">
+  <div style="flex:1">
+    <h2 id="mainTitle" style="text-align: center;"></h2>
+    <p id="titleQuestion"></p>
+  </div>
+  <div>
+    <table>
+      <tr>
+        <td>
+          <button class="formbold-btn" id="submit" onclick="window.location.href='form.html';" title="Edit"><i class="fa fa-edit" onerror="alert('error')"></i></button>
+        </td>
+        <td>
+          <button class="formbold-btn" id="submit" onclick="window.location.reload();" title="Refresh"><i class="fa fa-refresh"></i></button>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
 
 <div class="row answerdata">
 	Not Configured.
 </div>
+
 <hr>
 <hr>
 <div class="row questionData">
