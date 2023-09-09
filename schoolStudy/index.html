@@ -9,11 +9,12 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+  background: beige;
 }
 
 /* Float four columns side by side */
 .column {
-  float: left;
+  float: left;  
   width: 25%;
   padding: 10px;
 }
@@ -54,7 +55,14 @@ body {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   padding: 16px;
   text-align: center;
-  background-color: #f1f1f1;
+  background-color: #45e7ff;
+  border-radius:10px;
+}
+.card:hover:not(.card-que){
+  box-shadow:12px 12px 20px 0 rgba(0, 0, 0, 0.2);
+}
+.card-que{
+  background-color: #e3ff45; 
 }
 .card-answer {
   padding: 16px;
@@ -90,6 +98,8 @@ body {
 .draggable-pointer{
 	cursor: pointer;
 }
+
+
 </style>
 </head>
 <body>
@@ -110,13 +120,29 @@ body {
   
 </div>
 <script>
-let data = ["નસીબ","ચહેરો","સુતા","ઘોડો"];
-let queDataObj = {"સૂર્ય":"રવિ","હાથી":"કુંજર","ભેટ":"ઉપહાર","પુષ્પ":"ફૂલ"};
+// let data = ["નસીબ","ચહેરો","સુતા","ઘોડો"];
+let data = [];
+// let queDataObj = {"સૂર્ય":"રવિ","હાથી":"કુંજર","ભેટ":"ઉપહાર","પુષ્પ":"ફૂલ"};
+let queDataObj = {};
 let queData = [];
+let answerDataSet = [];
 
+let scl_name = "";
+let question_str = "";
+
+function setVariableData(){
+  if(localStorage['pageData']){
+    let pageData = JSON.parse(localStorage['pageData']);
+    data = pageData.optionData
+    queDataObj = pageData.questionData
+    scl_name = pageData.schoolName
+    question_str = pageData.question
+  }
+}
 
 function intiPage(){
-    let htmldata = "";
+  setVariableData();
+  let htmldata = "";
 	let queHtmlData = "";
 	let answerBoxData = "";
 	for(keydata in queDataObj){
@@ -128,7 +154,7 @@ function intiPage(){
 	for(let i=0;i<data.length;i++)
 	{
 		let column = '<div class="column">'+
-						'<div class="card draggable-pointer" draggable="true" ondragstart="drag(event)" id="data'+i+'" data-text="'+data[i]+'">'+
+						'<div class="card draggable-pointer" draggable="true" ondragstart="drag(event)" ondragend="dragend(event)" ondragover="handleDragOver(event)" id="data'+i+'" data-text="'+data[i]+'">'+
 						'<h3>'+data[i]+'</h3>'+
 					  '</div>'+
 					  '</div>';
@@ -137,7 +163,7 @@ function intiPage(){
 	for(let i=0;i<queData.length;i++)
 	{
 		let column = '<div class="column">'+
-						'<div class="card" id="data'+i+'">'+
+						'<div class="card card-que" id="data'+i+'">'+
 						'<h3>'+queData[i]+'</h3>'+
 					  '</div>'+
 					  '</div>';
@@ -152,10 +178,14 @@ function intiPage(){
 	collectionQue[0].innerHTML = queHtmlData;
 	const answerBoxClass = document.getElementsByClassName("answerBoxclass");
 	answerBoxClass[0].innerHTML = answerBoxData;
-	document.getElementById("mainTitle").innerText="સમાનાર્થી શબ્દો";
+	document.getElementById("mainTitle").innerText=scl_name;
+  document.getElementById("titleQuestion").innerText=question_str;
 	
 }
-
+function handleDragOver(e) {
+    e.preventDefault();
+    return false;
+  }
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -165,7 +195,14 @@ function shuffleArray(array) {
 }
 function drag(ev) {
   ev.dataTransfer.setData("text", ev.target.id);
+  ev.target.style.backgroundColor = "#f57c18";
 }
+
+function dragend(ev) {
+  ev.target.classList.remove('dragging');
+  ev.target.style.backgroundColor = "#45e7ff";
+}
+
 function drop(ev,inputRef,position) {
   ev.preventDefault();
   let datatext = ev.dataTransfer.getData("text");
@@ -174,15 +211,43 @@ function drop(ev,inputRef,position) {
   let answerData = "";
   
   if(rigthAnswer == answerText){
-	answerData = '<div class="card-answer-ok"><h3>'+answerText+'</h3></div>';
-	successPlaySound();
+	  answerData = '<div class="card-answer-ok"><h3>'+answerText+'</h3></div>';
+    answerDataSet[position]="Y";
+	  successPlaySound();
   }else{
-	answerData = '<div class="card-answer-notok"><h3>'+answerText+'</h3></div>';
-	failedPlaySound();
+	  answerData = '<div class="card-answer-notok"><h3>'+answerText+'</h3></div>';
+    answerDataSet[position]="N";
+	  failedPlaySound();
   }
   
   
   inputRef.innerHTML = answerData;
+  let isAllCompleted = 0;
+  let isFailed = 0; 
+  answerDataSet.forEach((item)=>{
+    if(item){
+      if(item === "N"){
+        isFailed++;
+      }
+      isAllCompleted++;
+    }
+  });
+  if(isAllCompleted === queData.length){
+    if(isFailed > (queData.length/2)){
+      try {
+        setTimeout(() => {
+          new Audio('tryAgain.mpeg').play();
+        }, 1500);
+      } catch (error) {console.log(error); }
+    }else if(isFailed === 0){
+      try {
+        setTimeout(() => {
+          new Audio('success.mp3').play();
+        }, 1500);
+      } catch (error) {console.log(error); }
+    }
+  }
+  //console.log(answerDataSet);
   //ev.target.removeChild();
   //ev.target.append(document.getElementById(data));
 }
@@ -190,11 +255,11 @@ function allowDrop(ev) {
   ev.preventDefault();
 }
 function successPlaySound(){
-	var audio = new Audio('success.mp3');
+	var audio = new Audio('sachu.mpeg');
 	audio.play();
 }
 function failedPlaySound(){
-	var audio = new Audio('fail.mp3');
+	var audio = new Audio('wrong.mpeg');
 	audio.play();
 }
 intiPage();

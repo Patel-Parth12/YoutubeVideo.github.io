@@ -411,7 +411,7 @@ function onSubmit(){
     storeData["schoolName"] =  school_name;
     storeData["question"] =  question;
 
-    let questions = [];
+    let questions = {};
     setQuestionObject(questions,que1,ans1);
     setQuestionObject(questions,que2,ans2);
     setQuestionObject(questions,que3,ans3);
@@ -442,16 +442,16 @@ function intiPage(){
    let pageData = JSON.parse(localStorage['pageData']);
    document.getElementById("school_name").value=pageData.schoolName;
    document.getElementById("question").value=pageData.question;
-   pageData?.questionData?.forEach((element,index) => {
-    let que = document.getElementById("que"+(index+1));
-    let ans = document.getElementById("ans"+(index+1));
-    if(que && ans){
-      Object.keys(element).forEach(item=>{
+   if(pageData.questionData){
+    Object.keys(pageData.questionData).forEach((item,index)=>{
+      let que = document.getElementById("que"+(index+1));
+      let ans = document.getElementById("ans"+(index+1));
+      if(que && ans){
         que.value=item;
-        ans.value=element[item];
-      });
-    }
-   });
+        ans.value=pageData.questionData[item];
+      }
+    });
+   }
    pageData?.optionData?.forEach((item,index)=>{
     let opt = document.getElementById("opt"+(index+1));
     if(opt){
@@ -469,7 +469,7 @@ function setOptiondata(optionData,opt){
 }
 function setQuestionObject(questions,que,ans){
   if(que.value && ans.value){
-    questions.push({[que.value]:ans.value});
+    questions[que.value]=ans.value;
   }
 }
 function showError(element,error){
